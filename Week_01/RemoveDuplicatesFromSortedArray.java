@@ -54,6 +54,25 @@ public class RemoveDuplicatesFromSortedArray{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int removeDuplicates(int[] nums) {
+        int i = nums.length > 0 ? 1 : 0;
+        for (int n : nums){
+            if (n > nums[i - 1]) nums[i++] = n;
+        }
+        return i;
+    }
+    /*//用count来计数，重复的个数-1，
+    // 找到下一个不重复的元素，放在前一段重复元素的第二个位置；
+    // 如1 1 1 2，则count=2；2元素要放的位置是第2个1；
+    public int removeDuplicates(int[] nums) {
+        int count = 0;
+        for (int i = 1; i < nums.length; i++){
+            if (nums[i] == nums[i-1]) count++;
+            else nums[i - count] = nums[i];
+        }
+        return nums.length-count;
+    }*/
+
+/*    public int removeDuplicates(int[] nums) {
         int j = 0;
         for (int i = 0; i < nums.length; i++){
             if (nums[j] != nums[i]){
@@ -62,7 +81,7 @@ class Solution {
             }
         }
         return j+1;
-    }
+    }*/
 
 /*    public int removeDuplicates(int[] nums) {
         int j = 0;
