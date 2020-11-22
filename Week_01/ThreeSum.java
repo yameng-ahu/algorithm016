@@ -20,8 +20,6 @@ package leetcode.editor.cn;
 // Related Topics 数组 双指针 
 // 👍 2712 👎 0
 
-import java.util.*;
-
 public class ThreeSum{
     public static void main(String[] args) {
         Solution solution = new ThreeSum().new Solution();
@@ -30,7 +28,29 @@ public class ThreeSum{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
+/*    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for(int k = 0; k < nums.length - 2; k++){
+            if(nums[k] > 0) break;
+            if(k > 0 && nums[k] == nums[k - 1]) continue;
+            int i = k + 1, j = nums.length - 1;
+            while(i < j){
+                int sum = nums[k] + nums[i] + nums[j];
+                if(sum < 0){
+                    while(i < j && nums[i] == nums[++i]);
+                } else if (sum > 0) {
+                    while(i < j && nums[j] == nums[--j]);
+                } else {
+                    res.add(new ArrayList<Integer>(Arrays.asList(nums[k], nums[i], nums[j])));
+                    while(i < j && nums[i] == nums[++i]);
+                    while(i < j && nums[j] == nums[--j]);
+                }
+            }
+        }
+        return res;
+    }*/
+    /*public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new LinkedList<>();
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
@@ -39,7 +59,6 @@ class Solution {
                 int left = i + 1, right = nums.length - 1;
                 while (left < right) {
                     if (target == nums[left] + nums[right]) {
-                        List<Integer> list = new ArrayList<>();
                         res.add(Arrays.asList(nums[i], nums[left], nums[right]));
                         while (left < right && nums[left] == nums[left + 1]) left++;
                         while (left < right && nums[right] == nums[right - 1]) right--;
@@ -51,7 +70,7 @@ class Solution {
             }
         }
         return res;
-    }
+    }*/
     /*//双指针，先对数组排序，默认从小到大升序，target从第一个数字开始，left指针从第二个数字开始，right指针从最后一个数字开始；
     // 如果left+right < target， 则left++；否则right--;此处去重的办法是用hashset来存数组
     public List<List<Integer>> threeSum(int[] nums) {
