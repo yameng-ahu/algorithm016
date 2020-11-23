@@ -77,7 +77,9 @@ class Solution {
         }
         return res;
     }
-    /*private List<List<Integer>> res = new ArrayList<>();
+    /*
+    //用dfs的话，需要用一个level来标记是哪一层
+    private List<List<Integer>> res = new ArrayList<>();
     public List<List<Integer>> levelOrder(TreeNode root) {
         //DFS
         int level = 0;
@@ -90,7 +92,7 @@ class Solution {
         if (root == null) return;
 
         //process current logic
-        if (res.size() <= level){
+        if (res.size() <= level){  //说明到了新的一层了，如果size大于level，size=2，level=1，说明还是在第1层，level是从0开始的
             List<Integer> list = new ArrayList<>();
             res.add(list);
         }
