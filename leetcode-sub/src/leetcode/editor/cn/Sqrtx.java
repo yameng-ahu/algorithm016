@@ -33,20 +33,21 @@ class Solution {
     public int mySqrt(int x) {
         /**
          * 为什么这里可以用二分法：1.从1到x是一个单调递增的区间；2.存在上下界
-         * 这种写法是比较符合逻辑的，首先对于mid取右中位数，这个可能需要经验来判断，
-         * 对于平方>x, 则取比当前值小于1的数，否则取当前数；这个逻辑是比较符合人脑的思考的
+         * mid > x / mid作为判断条件，和mid * mid > x作为判断条件的区别
          */
-        if (x == 0 || x == 1) return x;
-        long left = 1, right = x;
-        // 这里的判断，如果是要在循环里面返回结果，要写上=；如果是在循环体外面返回结果，最好不加=；
-        while (left < right){
-            long mid = (left + right + 1) >>> 1;
-            long square = mid * mid;
-            if (square == x) return (int)mid;
-            else if(square > x) right = mid - 1;
-            else left = mid;
+        if (x == 0) return 0;
+        int left = 1, right = x;
+        while (true){
+            int mid = left + (right - left) / 2;
+            // 这里如果输入的x是2147395599，则此时计算的mid为1073697800，如果使用mid * mid > x作为判断条件，则会出现整数溢出，导致不满足mid * mid > x，
+            // 但实际上是满足这个条件的，所以代码执行步骤就不对了
+            if (mid > x / mid){
+                right = mid - 1;
+            }else {
+                if (mid + 1 > x / (mid + 1)) return mid;
+                left = mid + 1;
+            }
         }
-        return (int)left;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
