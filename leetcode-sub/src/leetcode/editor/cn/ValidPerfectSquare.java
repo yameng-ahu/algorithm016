@@ -26,13 +26,16 @@ public class ValidPerfectSquare{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean isPerfectSquare(int num) {
-        //使用牛顿迭代法，用x = (x + a / x) / 2计算下一个近似值，这里是对a求其平方根x
-        int a = num;
-        //使用a > num / a   而不是  a * a > num， 可以避免整数溢出；如果使用a * a > num的话，要转换为long类型的
-        while (a > num / a){
-            a = (a + num / a) / 2;
+        if (num == 0 || num == 1) return true;
+        long left = 1, right = num;
+        while (left < right){
+            long mid = (left + right + 1) >>> 1;
+            long square = mid * mid;
+            if (square == num) return true;
+            else if (square > num) right = mid - 1;
+            else left = mid;
         }
-        return a * a == num;
+        return false;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
