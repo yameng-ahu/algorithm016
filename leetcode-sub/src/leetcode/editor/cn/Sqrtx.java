@@ -31,24 +31,23 @@ public class Sqrtx{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int mySqrt(int x) {
-        long a = x;
-        while (a * a > x){
-            a = (a + x / a) / 2;
-        }
-        return (int) a;
-    }
-    /*public int mySqrt(int x) {
-        //使用二分查找，因为这个序列是单调递增的，且查找的数字有上下界
+        /**
+         * 为什么这里可以用二分法：1.从1到x是一个单调递增的区间；2.存在上下界
+         */
         if (x == 0 || x == 1) return x;
-        long left = 1, right = x, mid = 1;
+        long left = 1, right = x;
         while (left <= right){
-            mid = left + (right - left) / 2;
-            if (mid * mid == x) return (int) mid;
+            long mid = left + (right - left) / 2;
+            if (mid * mid == x) return (int)mid;
             else if (mid * mid > x) right = mid - 1;
             else left = mid + 1;
         }
-        return (int) right;
-    }*/
+        // 当left == right的时候，mid = left，
+        // 1.如果，mid * mid小于x，会再执行一次left = mid + 1，此时left*left肯定是会大于x了，所以应该返回right
+        // 2.如果，mid * mid大于x，会执行一次right = mid - 1，此时right*right肯定是小于x的，所以也应该返回right
+        // 综上应该返回right
+        return (int)right;
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
