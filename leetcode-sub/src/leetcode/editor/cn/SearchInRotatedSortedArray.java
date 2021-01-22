@@ -56,17 +56,9 @@ class Solution {
         int left = 0, right = nums.length - 1;
         while (left < right) {
             int mid = (left + right) >> 1;
-            if (nums[mid] >= nums[left]) {
-                if (nums[mid] < target || nums[left] > target) {
-                    left = mid + 1;
-                }else right = mid;
-            }else {
-                if (nums[mid] < nums[left]) {
-                    if (nums[mid] < target && nums[left] > target) {
-                        left = mid + 1;
-                    }else right = mid;
-                }
-            }
+            if (nums[mid] >= nums[left] && (nums[mid] < target || nums[left] > target)) left = mid + 1;
+            else if (nums[mid] < target && nums[left] > target) left = mid + 1;
+            else right = mid;
         }
         return nums[left] == target ? left : -1;
     }
