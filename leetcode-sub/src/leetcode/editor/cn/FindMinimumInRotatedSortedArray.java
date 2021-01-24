@@ -33,7 +33,8 @@ class Solution {
     //要找最小值的话，要判断最小值在哪个区间里，那么就需要mid和left或者right相比较，可以用mid和left比，但是逻辑处理稍微复杂一些
     //用mid和right相比较，处理比较简单，以下直接用坐标代替num[xx]了：
     //1.如果mid > right，最小值肯定是在右区间，此时这个[mid, right]区间是有旋转点的
-    //2.如果mid <= right，说明[left, mid]区间是有旋转点的，最小值一定在左区间
+    //2.如果mid < right，说明[left, mid]区间是有旋转点的，最小值一定在左区间.
+    // 不可能存在mid=right的情况，因为mid取的是左中位数，可能会等于left，但是不会等于right
 
 
     //用mid和left比较，处理比较麻烦：
