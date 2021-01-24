@@ -52,16 +52,40 @@ class Solution {
     //5.2.如果mid对应的数小于target，则需要找更大的数，可能在左区间，也可能在右区间
     //5.2.1.如果left对应的数小于target，则应该在右区间
     //5.2.2.如果left对应的数大于target，则应该在左区间搜索
+
+    //写法2，
+    //public int search(int[] nums, int target) {
+    //    int left = 0, right = nums.length - 1;
+    //    while (left < right){
+    //        int mid = (left + right) >> 1;
+    //        if (nums[mid] < nums[left]){
+    //            if (nums[mid] < target && nums[left] > target){
+    //                left = mid + 1;
+    //            }else {
+    //                right = mid;
+    //            }
+    //        }else {
+    //            if (nums[mid] < target || nums[left] > target){
+    //                left = mid + 1;
+    //            }else {
+    //                right = mid;
+    //            }
+    //        }
+    //    }
+    //    return nums[left] == target ? left : -1;
+    //}
+    // 对写法2进行精简
     public int search(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
-        while (left < right) {
+        while (left < right){
             int mid = (left + right) >> 1;
-            if (nums[mid] >= nums[left] && (nums[mid] < target || nums[left] > target)) left = mid + 1;
-            else if (nums[mid] < target && nums[left] > target) left = mid + 1;
+            if (nums[mid] < nums[left] && nums[mid] < target && nums[left] > target)left = mid + 1;
+            else if (nums[mid] >= nums[left] && (nums[mid] < target || nums[left] > target)) left = mid + 1;
             else right = mid;
         }
         return nums[left] == target ? left : -1;
     }
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
