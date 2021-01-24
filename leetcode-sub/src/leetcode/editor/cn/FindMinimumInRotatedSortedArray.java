@@ -28,19 +28,49 @@ public class FindMinimumInRotatedSortedArray{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    //二分法，
+    //这种只要进行了旋转，就不可能有旋转后右区间大于左区间的情况
+    //要找最小值的话，要判断最小值在哪个区间里，那么就需要mid和left或者right相比较，可以用mid和left比，但是逻辑处理稍微复杂一些
+    //用mid和right相比较，处理比较简单，以下直接用坐标代替num[xx]了：
+    //1.如果mid > right，最小值肯定是在右区间，此时这个[mid, right]区间是有旋转点的
+    //2.如果mid <= right，说明[left, mid]区间是有旋转点的，最小值一定在左区间
+
+
+    //用mid和left比较，处理比较麻烦：
+    //1.如果mid > left，因为数组是部分升序的，所以这种情况下，所比较的区间[left, right]可能是没有拐点的；也可能是有拐点的
+    //1.1.如果left > right，说明这个区间是有拐点的，那么最小值在右区间，left = mid + 1；
+    //1.2.否则，说明这个区间就是正常的升序序列，那么最小值在左区间，
+    //2.如果mid < left，拐点在左区间，最小值一定在左区间
     public int findMin(int[] nums) {
         /**
-         * 暴力法，因为数字不重复，数组翻转之前是升序，那么从前向后遍历，如果当前数比前一个数小了，那么这个数一定是拐点。也就是最小值
-         * 还有一种情况是数组未翻转，那么第一个值就是最小值
+         * 使用nums[mid]和nums[right]比较
          */
-        int min = nums[0];
-        for(int i = 1; i < nums.length; i++){
-            if (nums[i] < nums[i - 1]){
-                return nums[i];
-            }
+        int left = 0, right = nums.length - 1;
+        while (left < right){
+            int mid = (left + right) / 2;
+            if (nums[mid] > nums[right]) left = mid + 1;
+            else right = mid;
         }
-        return min;
+        return nums[left];
     }
+
+/*    public int findMin(int[] nums) {
+        *//**
+         * 使用nums[mid]和nums[left]比较
+         *//*
+        int left = 0, right = nums.length - 1;
+        while (left < right){
+            int mid = (left + right) / 2;
+            if (nums[mid] >= nums[left]){
+                if (nums[left] > nums[right]){
+                    left = mid + 1;
+                }else{
+                    right = mid;
+                }
+            }else right = mid;
+        }
+        return nums[left];
+    }*/
 
     }
 //leetcode submit region end(Prohibit modification and deletion)
