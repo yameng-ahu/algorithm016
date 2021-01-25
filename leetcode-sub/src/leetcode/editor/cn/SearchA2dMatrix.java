@@ -51,39 +51,18 @@ public class SearchA2dMatrix{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //把二维数组当成一维数组来搜索，不需要新建一个数组，只更改索引坐标即可
+    //由于数组的行和列都是升序的，所以可从左下角到右上角进行搜索，最初的左下角相当于二分法中的mid元素，每次排除一行或一列
     public boolean searchMatrix(int[][] matrix, int target) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
-        int m = matrix.length, n = matrix[0].length, left = 0, right = n * m - 1;
-        while(left <= right){
-            int mid = left + (right - left) / 2;
-            if (target == matrix[mid / n][mid % n]) return true;
-            else if (matrix[mid / n][mid % n] > target) right = mid - 1;
-            else left = mid + 1;
+        //i 行的索引，j列的索引
+        int j = 0, i = matrix.length - 1;
+        while (j < matrix[0].length && i >= 0){
+            if (target == matrix[i][j]) return true;
+            else if (target > matrix[i][j]) j++;
+            else i--;
         }
         return false;
     }
-
-/*    //把二维数组转化为一维的，可以使用二分法来求解，复杂度应该是o（n*m），主要是转化一维数组的时候复杂度较高
-    public boolean searchMatrix(int[][] matrix, int target) {
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
-        int[] nums = new int[matrix.length * matrix[0].length];
-        int k = 0;
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[0].length; j++){
-                nums[k++] = matrix[i][j];
-            }
-        }
-
-        int left = 0, right = nums.length - 1;
-        while(left <= right){
-            int mid = left + (right - left) / 2;
-            if (target == nums[mid]) return true;
-            else if (nums[mid] > target) right = mid - 1;
-            else left = mid + 1;
-        }
-        return false;
-    }*/
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
