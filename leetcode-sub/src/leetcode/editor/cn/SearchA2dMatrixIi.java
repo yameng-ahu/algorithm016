@@ -50,10 +50,6 @@ public class SearchA2dMatrixIi{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        /**
-         * 这个题目和74题有区别，但是代码细节处理一样的，尤其对于matrix[i][j] < target，并不能确定是向右搜索还是向上，
-         * 因为i的上一行也有比target大的元素
-         */
         for (int i = 0; i < matrix.length; i++){
             int[] row = matrix[i];
             boolean isExist = bisection(row, target);
