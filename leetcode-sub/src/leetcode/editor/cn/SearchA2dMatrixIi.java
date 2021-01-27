@@ -54,10 +54,20 @@ class Solution {
          * 这个题目和74题有区别，但是代码细节处理一样的，尤其对于matrix[i][j] < target，并不能确定是向右搜索还是向上，
          * 因为i的上一行也有比target大的元素
          */
-        int i = matrix.length - 1, j = 0;
-        while (i >= 0 && j < matrix[0].length){
-            if (matrix[i][j] > target) i--;
-            else if (matrix[i][j] < target) j++;
+        for (int i = 0; i < matrix.length; i++){
+            int[] row = matrix[i];
+            boolean isExist = bisection(row, target);
+            if (isExist) return true;
+        }
+        return false;
+    }
+
+    private boolean bisection(int[] row, int target) {
+        int left = 0, right = row.length - 1;
+        while (left <= right){
+            int mid = (left + right) >> 1;
+            if (target > row[mid]) left = mid + 1;
+            else if (target < row[mid]) right = mid - 1;
             else return true;
         }
         return false;
