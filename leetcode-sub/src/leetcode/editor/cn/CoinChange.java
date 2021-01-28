@@ -63,29 +63,23 @@ public class CoinChange{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //贪心+DFS  当前层逻辑：获取当前面值的硬币需要多少个可以接近达到总数，获取当前还剩多少总额需要分配，
-    int res = Integer.MAX_VALUE; //这个参数是最后返回的最小次数
+    /*    DP
+    a.分治，重复性，求面值为11的硬币组合，相当于求面值为11-1 = 10, 11-2 = 9, 11-5 = 6，这三个面值的总的组合，要去重，要找到最小的硬币数
+    b.状态数组：f(n)定义为面值为n的需要的硬币组合数
+    c.状态方程：f(n) = min(f(n), f(n-k){k in coins} + 1)*/
     public int coinChange(int[] coins, int amount) {
-        if (amount == 0) return 0;
-        Arrays.sort(coins); //升序排序
-        mincoin(coins, amount, coins.length - 1, 0);
-        return res == Integer.MAX_VALUE ? -1 : res;
-    }
-
-    private void mincoin(int[] coins, int amount, int index, int count) {
-        //terminator
-        if (amount == 0){
-            res = Math.min(res, count);
-            return;
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++){
+            for (int j = 0; j < coins.length; j++){
+                if (coins[j] <= i){
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
         }
-        if (index < 0) return;
-        //i初始值是总数除以最大面值硬币的倍数，即最大面值硬币需要多少个可以接近达到总数；
-        for (int i = amount/coins[index]; i >= 0 && i + count < res; i--){
-            //current logic
-            int amountCur = amount - (i * coins[index]);
-            //drill down
-            mincoin(coins, amountCur, index - 1, count + i);
-        }
+        return dp[amount] == max ? -1 : dp[amount];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
