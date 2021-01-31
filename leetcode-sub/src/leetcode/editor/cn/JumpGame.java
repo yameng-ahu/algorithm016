@@ -30,17 +30,34 @@ public class JumpGame{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //1.对每一个能够作为起跳的的格子都尝试跳一次，更新能跳到的最远距离，
-    // 如果能一直跳到最后（k可以一直更新，即k比i大），则成功
+        //贪心可以从前往后，从后往前，或者局部切入进行贪心求解。
+    // 本题使用从后往前进行贪心求解。
+    // 最近重复子问题：维护一个从后往前移动能够到达的坐标endreachable；
+    // 如果前一个数字能够跳跃的最大距离大于和当前endreachable和该数字index之间的距离，则移动endreachable到前一个数字
+    //最后判断如果endreachable=0，即到达第一个位置，则结果为true
     public boolean canJump(int[] nums) {
-        if (nums == null) return false;
-        int k = 0;
-        for (int i = 0; i < nums.length; i++){
-            if (i > k) return false;
-            k = Math.max(k, nums[i] + i);
+        if (nums == null) return  false;
+        int endreachable = nums.length - 1;
+        for (int i = nums.length - 1; i >= 0; i--){
+            if (nums[i] >= endreachable - i) endreachable = i;
         }
-        return true;
+        return endreachable == 0;
     }
+/*    public boolean canJump(int[] nums) {
+        int endIndex = nums.length - 1;
+        int jumpIndex = nums.length - 2;
+        boolean flag = true;
+        while (endIndex >= 0 && jumpIndex >= 0) {
+            if (endIndex - jumpIndex <= nums[jumpIndex]) {
+                flag = true;
+                endIndex = jumpIndex;
+                jumpIndex = endIndex - 1;
+            } else {
+                flag = false;
+                jumpIndex--;
+            }
+        }
+    }*/
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
