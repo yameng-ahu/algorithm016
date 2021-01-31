@@ -47,10 +47,10 @@ class Solution {
         }
         return count;
     }
-    public int jump(int[] nums) {
-        /**
+/*    public int jump(int[] nums) {
+        *//**
          * 上面方法的优化
-         */
+         *//*
         int count = 0, maxPos = 0, end = 0;
         for (int i = 0; i < nums.length - 1; i++) {
             maxPos = Math.max(maxPos, nums[i] + i);
@@ -60,7 +60,7 @@ class Solution {
             }
         }
         return count;
-    }
+    }*/
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
