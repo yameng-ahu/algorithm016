@@ -39,9 +39,6 @@ package leetcode.editor.cn;
 // Related Topics 数组 动态规划 
 // 👍 718 👎 0
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class UniquePaths{
     public static void main(String[] args) {
         Solution solution = new UniquePaths().new Solution();
@@ -50,24 +47,23 @@ public class UniquePaths{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    //动态规划的关键：
+    //    1.最优子结构opt[n] = best_of(opt[n-1], opt[n-2]...);
+    //    2.存储中间状态opt[i]
+    //    3.递推公式
+    //使用递归是自顶向下一步一步找
+    //使用动态递推则是自底向上找。这个棋盘里，最靠近终点的两个点AB的走法分别是多少，然后往上一层，最靠近AB的点的走法是多少
+    //最终得到递推公式：dp[i][j] = dp[i+1][j] + dp[i][j+1];
     public int uniquePaths(int m, int n) {
-        return uniquePathsHelper(1, 1, m, n, new HashMap<>());
-    }
-
-    public int uniquePathsHelper(int i, int j, int m, int n, Map<String, Integer> map) {
-        //采用递归+记忆化搜索的方式，时间复杂度降为O（n），这个有点类似斐波那契数列
-        if (i > m || j > n)
-            return 0;
-        if ((i == m && j == n))
-            return 1;
-        String key = i + "*" + j;
-        if (map.containsKey(key))
-            return map.get(key);
-        int right = uniquePathsHelper(i + 1, j, m, n, map);
-        int down = uniquePathsHelper(i, j + 1, m, n, map);
-        int totla = right + down;
-        map.put(key, totla);
-        return totla;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) dp[i][n-1] = 1;
+        for (int j = 0; j < n; j++) dp[m-1][j] = 1;
+        for (int i = m - 2; i >= 0; i--){
+            for (int j = n - 2; j >= 0; j--){
+                dp[i][j] = dp[i+1][j] + dp[i][j+1];
+            }
+        }
+        return dp[0][0];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
