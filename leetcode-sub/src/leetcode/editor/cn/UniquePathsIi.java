@@ -41,24 +41,19 @@ class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
-        int[] pre = new int[n];
         int[] cur = new int[n];
         for (int j = n - 1; j >= 0; j--){
             if (obstacleGrid[m - 1][j] == 1) break;
-            else {
-                cur[j] = 1;
-                pre[j] = 1;
-            }
+            else cur[j] = 1;
         }
         for (int i = m - 2; i >= 0; i--){
             for (int j = n - 1; j >= 0; j--){
                 if (obstacleGrid[i][j] == 1) cur[j] = 0;
                 else {
-                    if (j == n - 1) cur[j] = pre[j];
-                    else cur[j] = pre[j] + cur[j+1];
+                    if (j == n - 1) cur[j] = cur[j];
+                    else cur[j] = cur[j] + cur[j+1];
                 }
             }
-            pre = cur;
         }
         return cur[0];
     }
