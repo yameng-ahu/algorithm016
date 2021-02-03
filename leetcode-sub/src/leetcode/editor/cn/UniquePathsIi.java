@@ -56,6 +56,7 @@ class Solution {
             }
         }
         return cur[0];
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
