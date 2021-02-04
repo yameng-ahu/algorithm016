@@ -36,20 +36,19 @@ public class Triangle{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //递归+记忆化搜索
-    int[][] memo;
+    //  dp的解法
+    //a.重复性，2的最小路径和是3的最小路径和和4的最小路径和的较小者+2，同理
+    //b.定义状态数组，dp[i][j]表示三角形第i,j这个点到底边的最小路径和
+    //c.dp方程，dp[i][j] = min(dp[i+1][j], dp[i+1][j+1]) + triangle[i][j];
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
-        memo = new int[n + 1][n + 1];
-        return dfs(triangle, 0, 0);
-    }
-
-    private int dfs(List<List<Integer>> triangle, int level, int j) {
-        if (level == triangle.size()) return 0;
-
-        if (memo[level][j] != 0) return memo[level][j];
-
-        return memo[level][j] = Math.min(dfs(triangle, level + 1, j), dfs(triangle, level + 1, j + 1)) + triangle.get(level).get(j);
+        int[][] dp = new int[n+1][n+1];
+        for (int i = n - 1; i >= 0; i--){
+            for (int j = 0; j <= i; j++){
+                dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + triangle.get(i).get(j);
+            }
+        }
+        return dp[0][0];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
