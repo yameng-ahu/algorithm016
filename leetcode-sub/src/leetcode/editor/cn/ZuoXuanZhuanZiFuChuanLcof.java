@@ -35,28 +35,13 @@ public class ZuoXuanZhuanZiFuChuanLcof{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    /*public String reverseLeftWords(String s, int n) {
-        //使用java中的substring
-        return s.substring(n, s.length()) + s.substring(0, n);
-    }*/
-    /*public String reverseLeftWords(String s, int n) {
-        //使用StringBuilder的优化
-        StringBuilder res = new StringBuilder();
-        for (int i = n; i < s.length(); i++){
-            res.append(s.charAt(i));
-        }
-        for (int i = 0; i < n; i++){
-            res.append(s.charAt(i));
-        }
-        return res.toString();
-    }*/
     public String reverseLeftWords(String s, int n) {
-        //使用StringBuilder的优化
-        StringBuilder res = new StringBuilder();
+        //利用取余运算优化
+        String res = "";
         for (int i = n; i < s.length() + n; i++){
-            res.append(s.charAt(i % s.length()));
+            res += s.charAt(i % s.length());
         }
-        return res.toString();
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
