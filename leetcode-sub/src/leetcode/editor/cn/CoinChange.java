@@ -65,8 +65,11 @@ public class CoinChange{
 class Solution {
     /*    DP
     a.分治，重复性，求面值为11的硬币组合，相当于求面值为11-1 = 10, 11-2 = 9, 11-5 = 6，这三个面值的总的组合，要去重，要找到最小的硬币数
-    b.状态数组：f(n)定义为面值为n的需要的硬币组合数
-    c.状态方程：f(n) = min(f(n), f(n-k){k in coins} + 1)*/
+    b.状态数组：f(n)定义为面值为n的需要的最少的硬币数
+    c.状态方程：f(n) = min(f(n), f(n-k){k in coins} + 1)
+    定义状态方程的时候类比爬楼梯问题，每次只能爬一层或者爬两层，f(n) = f(n - 1) + f(n - 2)，
+    所以这里的k就相当于硬币的面值
+    */
     public int coinChange(int[] coins, int amount) {
         int max = amount + 1;
         int[] dp = new int[amount + 1];
