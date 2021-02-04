@@ -34,24 +34,27 @@ public class ClimbingStairs{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-   //优化之后的递归；
-    // 记忆化搜索
-    public int climbStairs(int n) {
-        int[] memo = new int[n + 1];
-        return dfs(n, memo);
-    }
-
-    private int dfs(int n, int[] memo) {
-        if (n <= 2) return n;
-        if (memo[n] == 0) memo[n] = dfs(n - 1, memo) + dfs(n - 2, memo);
-        return memo[n];
-    }
-
-/*    //傻递归，超时，O(N^2)的时间复杂度；
-      //状态树类似一棵二叉树，要求解的问题指数增加
-    public int climbStairs(int n) {
-        return n <= 1 ? n : climbStairs(n - 1) + climbStairs(n - 2);
+    //动态规划，自底向上
+/*    public int climbStairs(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1; dp[1] = 1;
+        for (int i = 2; i <= n; i++){
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
     }*/
+    public int climbStairs(int n) {
+        //动态规划，降低空间复杂度，这里计算当前层的路径数，只需要前两个数，所以只要保存前两个数就可以了
+        if (n <= 2) return n;
+        int sum = 0;
+        int f1 = 1, f2 = 2;
+        for (int i = 3; i <= n; i++){
+            sum = f1 + f2;
+            f1 = f2;
+            f2 = sum;
+        }
+        return sum;
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
