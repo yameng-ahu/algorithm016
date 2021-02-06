@@ -53,8 +53,6 @@ package leetcode.editor.cn;
 // Related Topics 动态规划 
 // 👍 856 👎 0
 
-import java.util.Arrays;
-
 public class CoinChange{
     public static void main(String[] args) {
         Solution solution = new CoinChange().new Solution();
@@ -63,27 +61,44 @@ public class CoinChange{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    /*    DP
-    a.分治，重复性，求面值为11的硬币组合，相当于求面值为11-1 = 10, 11-2 = 9, 11-5 = 6，这三个面值的总的组合，要去重，要找到最小的硬币数
-    b.状态数组：f(n)定义为面值为n的需要的最少的硬币数
-    c.状态方程：f(n) = min(f(n), f(n-k){k in coins} + 1)
-    定义状态方程的时候类比爬楼梯问题，每次只能爬一层或者爬两层，f(n) = f(n - 1) + f(n - 2)，
-    所以这里的k就相当于硬币的面值
-    */
+    // 使用递归+记忆化搜索，使用一个数组memo来存储金额为n的所需最小硬币个数
+    int[] memo;
     public int coinChange(int[] coins, int amount) {
-        int max = amount + 1;
-        int[] dp = new int[amount + 1];
-        Arrays.fill(dp, max);
-        dp[0] = 0;
-        for (int i = 1; i <= amount; i++){
-            for (int j = 0; j < coins.length; j++){
-                if (coins[j] <= i){
-                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
-                }
+        memo = new int[amount];
+        int min = minCoin(coins, amount);
+        return min;
+    }
+    private int minCoin(int[] coins, int amount){
+        if (amount == 0) return 0;
+        if (amount < 0) return -1;
+        if (memo[amount - 1] != 0) return memo[amount - 1];
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < coins.length; i++){
+            int res = minCoin(coins, amount - coins[i]);
+            //计算出来金额为amount-coins[i]所需的最少硬币数之后，根据判断条件更新最小值
+            if (res >= 0 && res < min){
+                min = res + 1;
             }
         }
-        return dp[amount] == max ? -1 : dp[amount];
+        memo[amount - 1] = (min == Integer.MAX_VALUE ? -1 : min);
+        return memo[amount - 1];
     }
+    //    使用递归，不加记忆化搜索的（会超时），可以画出来递归树，然后根据递归树写代码（这个从递归树转化为代码的套路一定要会）
+/*    int min = Integer.MAX_VALUE;
+    public int coinChange(int[] coins, int amount) {
+        minCoin(coins, amount, 0);
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+    private void minCoin(int[] coins, int amount, int count){
+        if (amount == 0){
+            min = Math.min(min, count);
+            return;
+        }
+        if (amount < 0) return;
+        for (int i = 0; i < coins.length; i++){
+            minCoin(coins, amount - coins[i], count + 1);
+        }
+    }*/
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
