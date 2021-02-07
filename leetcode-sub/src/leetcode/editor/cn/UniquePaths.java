@@ -39,8 +39,6 @@ package leetcode.editor.cn;
 // Related Topics 数组 动态规划 
 // 👍 718 👎 0
 
-import java.util.Arrays;
-
 public class UniquePaths{
     public static void main(String[] args) {
         Solution solution = new UniquePaths().new Solution();
@@ -49,32 +47,17 @@ public class UniquePaths{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //    降维：O（2n）的空间复杂度
-    //计算当前格子路径数的时候，只需要当前格子的右边格子和下边一个格子，这里先用两个数组存储
-/*    public int uniquePaths(int m, int n) {
-        int[] pre = new int[n];
-        int[] cur = new int[n];
-        Arrays.fill(pre, 1);
-        Arrays.fill(cur, 1);
-        for (int i = m - 2; i >= 0; i--){
-            for(int j = n - 2; j >= 0; j--){
-                cur[j] = cur[j + 1] + pre[j];
-            }
-            pre = cur;
-        }
-        return cur[0];
-    }*/
-
-    //空间复杂度O（n）
+    // memo存储的是第i，j这个位置到终点的不同路径和
+    int[][] memo;
     public int uniquePaths(int m, int n) {
-        int[] cur = new int[n];
-        Arrays.fill(cur, 1);
-        for (int i = m - 2; i >= 0; i--){
-            for(int j = n - 2; j >= 0; j--){
-                cur[j] = cur[j] + cur[j + 1];
-            }
-        }
-        return cur[0];
+        memo = new int[m + 1][n + 1];
+        return uniquePath(1, 1, m, n);
+    }
+    private int uniquePath(int i, int j, int m, int n){
+        if(i > m || j > n) return 0;
+        if (i == m || j == n) return 1;
+        if (memo[i][j] != 0) return memo[i][j];
+        return memo[i][j] = uniquePath(i + 1, j, m, n) + uniquePath(i, j + 1, m, n);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
