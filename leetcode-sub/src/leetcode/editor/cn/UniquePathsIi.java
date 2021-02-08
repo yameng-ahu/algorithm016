@@ -38,44 +38,25 @@ public class UniquePathsIi{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    //两种递归+记忆化搜索的写法
-    int[][] memo;
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
-        memo = new int[m][n];
-        return uniquePathHelper(0, 0, m - 1, n - 1, obstacleGrid);
+        //多用一个空间，最后一列都是0即可，下面cur[j] = pre[j] + cur[j + 1]的时候不会超过数组索引
+        int[] cur = new int[n + 1];
+        int[] pre = new int[n + 1];
+        for (int j = n - 1; j >= 0 && obstacleGrid[m - 1][j] != 1; j--){
+            cur[j] = 1;
+            pre[j] = 1;
+        }
+        for (int i = m - 2; i >= 0; i--){
+            for (int j = n - 1; j >= 0; j--){
+                if(obstacleGrid[i][j] == 1) cur[j] = 0;
+                else cur[j] = pre[j] + cur[j + 1];
+            }
+            pre = cur;
+        }
+        return cur[0];
     }
-    private int uniquePathHelper(int i, int j, int m, int n, int[][] obstacleGrid){
-        if (i > m || j > n) return 0;
-        if (obstacleGrid[i][j] == 1) return 0;
-        if (i == m && j == n) return 1;
-        if (memo[i][j] != 0) return memo[i][j];
-        return memo[i][j] = uniquePathHelper(i + 1, j, m, n, obstacleGrid) + uniquePathHelper(i, j + 1, m, n, obstacleGrid);
-    }
-    /*public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-        return uniquePathsHelper(0, 0, m - 1, n - 1, new HashMap<>(), obstacleGrid);
-    }
-
-    public int uniquePathsHelper(int i, int j, int m, int n, Map<String, Integer> map, int[][] obstacleGrid) {
-        //采用递归+记忆化搜索的方式，时间复杂度降为O（n），这个有点类似斐波那契数列
-        if (i > m || j > n)
-            return 0;
-        if (obstacleGrid[i][j] == 1)
-            return 0;
-        if ((i == m && j == n))
-            return 1;
-        String key = i + "*" + j;
-        if (map.containsKey(key))
-            return map.get(key);
-        int right = uniquePathsHelper(i + 1, j, m, n, map, obstacleGrid);
-        int down = uniquePathsHelper(i, j + 1, m, n, map, obstacleGrid);
-        int totla = right + down;
-        map.put(key, totla);
-        return totla;
-    }*/
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
