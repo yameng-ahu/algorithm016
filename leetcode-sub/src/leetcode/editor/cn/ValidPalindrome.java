@@ -28,21 +28,13 @@ public class ValidPalindrome{
 class Solution {
     public boolean isPalindrome(String s) {
         StringBuilder s1 = new StringBuilder();
-        StringBuilder s2 = new StringBuilder();
-        String s_to = s.toLowerCase();
-        for (char ch : s_to.toCharArray()){
-            if ((ch - '0' >= 0 && ch - '0' <= 9) || (ch >= 'a' && ch <= 'z')){
-                s1.append(ch);
+        for (char ch : s.toCharArray()){
+            if (Character.isLetterOrDigit(ch)){
+                s1.append(Character.toLowerCase(ch));
             }
         }
-
-        for (int i = s_to.length() - 1; i >= 0; i--){
-            char ch = s_to.charAt(i);
-            if ((ch - '0' >= 0 && ch - '0' <= 9) || (ch >= 'a' && ch <= 'z')){
-                s2.append(ch);
-            }
-        }
-        return (s1.toString()).equals(s2.toString());
+        StringBuilder s2 = new StringBuilder(s1).reverse();
+        return s1.toString().equals(s2.toString());
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
