@@ -18,6 +18,8 @@ package leetcode.editor.cn;
 // Related Topics 双指针 字符串 
 // 👍 342 👎 0
 
+import java.util.Stack;
+
 public class ValidPalindrome{
     public static void main(String[] args) {
         Solution solution = new ValidPalindrome().new Solution();
@@ -27,20 +29,18 @@ public class ValidPalindrome{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean isPalindrome(String s) {
-        int left = 0, right = s.length() - 1;
-        while (left < right){
-            while (left < right && !Character.isLetterOrDigit(s.charAt(left))){
-                left++;
+        Stack<Character> stack = new Stack<>();
+        for (char ch : s.toCharArray()){
+            if (Character.isLetterOrDigit(ch)){
+                stack.push(Character.toLowerCase(ch));
             }
-            while (left < right && !Character.isLetterOrDigit(s.charAt(right))){
-                right--;
-            }
-            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right)))
-                return false;
-            left++;
-            right--;
         }
-        return true;
+        StringBuilder str = new StringBuilder();
+        while (!stack.isEmpty()){
+            str.append(stack.pop());
+        }
+        StringBuilder str_rev = new StringBuilder(str).reverse();
+        return str.toString().equals(str_rev.toString());
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
