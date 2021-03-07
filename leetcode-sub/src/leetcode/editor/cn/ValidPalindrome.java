@@ -27,14 +27,20 @@ public class ValidPalindrome{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean isPalindrome(String s) {
-        StringBuilder s1 = new StringBuilder();
-        for (char ch : s.toCharArray()){
-            if (Character.isLetterOrDigit(ch)){
-                s1.append(Character.toLowerCase(ch));
+        int left = 0, right = s.length() - 1;
+        while (left < right){
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))){
+                left++;
             }
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))){
+                right--;
+            }
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right)))
+                return false;
+            left++;
+            right--;
         }
-        StringBuilder s2 = new StringBuilder(s1).reverse();
-        return s1.toString().equals(s2.toString());
+        return true;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
